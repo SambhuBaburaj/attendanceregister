@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+.suspended-text {
+    @apply text-gray-500
+  }
+  .td-class {
+    @apply px-4 py-3 text-gray-900 bg-gray-200 first:rounded-tl-lg first:rounded-bl-lg last:rounded-tr-lg last:rounded-br-lg
+  } 
+  .tr-class {
+    @apply flex flex-col mb-4
+  }
+  .td-class {
+    @apply px-4 py-3 bg-gray-200 first:rounded-t-lg last:rounded-b-lg
+  } 
+  .tr-class {
+    @apply flex flex-col mb-4 sm:table-row
+  }
