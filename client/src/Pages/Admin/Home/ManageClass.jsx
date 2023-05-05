@@ -97,7 +97,7 @@ function ManageClass() {
                               setRemoveclass(true);
                               setclassnumber(value.Class);
                             }}
-                            href="#"
+                       
                             className="font-medium text-red-600 dark:text-red-500 hover:underline"
                           >
                             Remove

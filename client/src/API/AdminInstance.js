@@ -8,7 +8,7 @@ export const AdminLogin=(data)=>
 export const Classes=async ()=>
 
 {
-  console.log('axios is here');
+
   return await AdminInstance.get('/admin/getclasses')
 }
 export const addClass=async (classname)=>

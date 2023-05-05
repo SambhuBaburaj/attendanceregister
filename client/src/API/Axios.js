@@ -5,8 +5,8 @@ const AdminInstance=axios.create({baseURL})
 AdminInstance.interceptors.request.use(
 
     (config) => {
-      console.log('axios working');
-        console.log('errthgeh');
+
+   
       const token = localStorage.getItem("UserAccessToken");
   
       if (token) {
@@ -22,7 +22,7 @@ AdminInstance.interceptors.request.use(
   );
   AdminInstance.interceptors.response.use(
     (response) => {
-      console.log('resposnse is here');
+
       // Do something with the response data
       return response;
     },

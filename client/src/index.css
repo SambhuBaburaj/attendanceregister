@@ -16,3 +16,10 @@
   .tr-class {
     @apply flex flex-col mb-4 sm:table-row
   }
+  @layer base {
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  }

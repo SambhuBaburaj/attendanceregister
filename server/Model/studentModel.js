@@ -1,38 +1,59 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 
 const Students = new mongoose.Schema({
   serialNumber: {
     type: Number,
     required: true,
-    unique: true
+    unique: true,
   },
+  accademy:{type:String},
+  class:Number,
   name: String,
   phone: Number,
-  status:{type:Boolean,
-  defult:true
-  }
+  status: { type: Boolean, default: true },
 });
 
-Students.pre('validate',async function  (next) {
-
+Students.pre("validate", async function (next) {
   const doc = this;
-console.log(this);
+  console.log(doc);
   if (doc.isNew) {
-   
-    await StudentModel.findOne().sort('-serialNumber').then(function( lastDoc,err) {
-   
-// console.log(lastDoc);
-// console.log(err);
-      if (err) return next(err);
+    await StudentModel.findOne({class:doc.class,accademy:'Wisdom'})
+      .sort("-serialNumber")
+      .then(function (lastDoc, err) {
+       
+        if (err) return next(err);
 
-      doc.serialNumber = (lastDoc && lastDoc.serialNumber || 0) + 1;
-      next();
-    });
+        doc.serialNumber = ((lastDoc && lastDoc.serialNumber) || 0) + 1;
+        next();
+      });
   } else {
     next();
   }
+
+
+
+
+  // if (doc.isNew) {
+  //   await StudentModel.findOne()
+  //     .sort("-serialNumber")
+  //     .then(function (lastDoc, err) {
+       
+  //       if (err) return next(err);
+
+  //       doc.serialNumber = ((lastDoc && lastDoc.serialNumber) || 0) + 1;
+  //       next();
+  //     });
+  // } else {
+  //   next();
+  // }
 });
 
+const StudentModel = mongoose.model("students", Students);
+
+module.exports = { StudentModel };
+
+
+//delete student
 
 // Students.pre('findOneAndDelete', async function(next) {
 
@@ -51,18 +72,3 @@ console.log(this);
 //     next();
 //   });
 // });
-
-
-
-
-
-
-
-
-
-
-
-
-const StudentModel = mongoose.model('students', Students);
-
-module.exports = { StudentModel };
