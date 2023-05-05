@@ -25,7 +25,9 @@ const [studentid,setstudentid]=useState()
     // Perform action here
     setShowModal(false);
 console.log(studentid);
+console.log('befor pose');
     pauseStudent(studentid).then((data) => {
+      console.log('fiuahwefrr');
       studentdata();
     });
   };
@@ -50,7 +52,7 @@ const handleDelete=()=>
 
   setfordelete(false);
 
-  deleteStudent().then(data=>
+  deleteStudent(studentid).then(data=>
     {
       studentdata()
     })

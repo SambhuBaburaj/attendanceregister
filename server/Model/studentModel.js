@@ -4,7 +4,6 @@ const Students = new mongoose.Schema({
   serialNumber: {
     type: Number,
     required: true,
-    unique: true,
   },
   accademy:{type:String},
   class:Number,
@@ -33,19 +32,7 @@ Students.pre("validate", async function (next) {
 
 
 
-  // if (doc.isNew) {
-  //   await StudentModel.findOne()
-  //     .sort("-serialNumber")
-  //     .then(function (lastDoc, err) {
-       
-  //       if (err) return next(err);
 
-  //       doc.serialNumber = ((lastDoc && lastDoc.serialNumber) || 0) + 1;
-  //       next();
-  //     });
-  // } else {
-  //   next();
-  // }
 });
 
 const StudentModel = mongoose.model("students", Students);

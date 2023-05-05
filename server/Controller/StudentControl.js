@@ -1,3 +1,4 @@
+const { default: mongoose } = require("mongoose");
 const { StudentModel } = require("../Model/studentModel");
 
 const AddNewStudent = (req, res) => {
@@ -7,24 +8,26 @@ const AddNewStudent = (req, res) => {
 };
 
 const deleteStudent = async (req, res) => {
-  await StudentModel.findOneAndDelete({ serialNumber: 1 }).then(
-    async (doc, e) => {
-      console.log(doc);
-      await StudentModel.find({ serialNumber: { $gt: doc.serialNumber } }).then(
-        function (docs, err, next) {
-          console.log(docs);
-          console.log(err);
-          if (err) return next(err);
-          docs.forEach(function (doc) {
-            doc.serialNumber -= 1;
-            doc.save();
-          });
-          next();
-        }
-      );
-      console.log(e);
-    }
-  );
+  try {
+    console.log(new mongoose.Types.ObjectId(req.query.studentis));
+    await StudentModel.findOneAndDelete({
+      _id: new mongoose.Types.ObjectId(req.query.studentis),
+    })
+.then(async data=>
+  {
+    
+    const filter = { class: data.class, serialNumber: { $gt: data.serialNumber } };
+    const update = { $inc: { serialNumber: -1 } };
+    
+    await StudentModel.updateMany(filter, update);
+
+  }
+)
+
+res.json(true)
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const newstudent = async (req, res) => {
@@ -44,31 +47,28 @@ const newstudent = async (req, res) => {
       phone: req.body.Phone,
       class: req.body.class,
     }).save();
-    console.log("eriug");
+
     res.json({ res: 1 });
   }
 };
 const studentdetail = async (req, res) => {
-  console.log("ergser");
-  console.log(req.query.class);
   const details = await StudentModel.find({ class: parseInt(req.query.class) });
-  console.log(details);
+
   res.status(200).json(details);
 };
 
-const pouseSudent=async (req,res)=>
-{
-console.log(req.query);
-
-await StudentModel.findOne({_id:req.query.student}).then (async s=>
-  {
+const pouseSudent = async (req, res) => {
+  console.log("yes im here");
+  console.log(req.query);
+  console.log("dlgijedsognosenkmgs");
+  await StudentModel.findOne({ _id: req.query.student }).then(async (s) => {
     console.log();
-await StudentModel.findByIdAndUpdate({_id:req.query.student},{status:!s.status}).then(s=>console.log(s))
-res.status(200).json(true)
+    await StudentModel.findByIdAndUpdate(
+      { _id: req.query.student },
+      { status: !s.status }
+    ).then((s) => console.log(s));
+    res.status(200).json(true);
+  });
+};
 
-
-  })
-
-}
-
-module.exports = { deleteStudent, newstudent, studentdetail ,pouseSudent};
+module.exports = { deleteStudent, newstudent, studentdetail, pouseSudent };
