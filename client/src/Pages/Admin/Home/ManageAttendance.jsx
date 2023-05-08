@@ -1,45 +1,46 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { Classes } from '../../../API/AdminInstance'
+import { Classes } from '../../../API/AdminInstance';
+import { useNavigate } from 'react-router-dom';
 
-function Managestudent() {
-  const navigate=useNavigate()
-const[classname,setclassnames]=useState()
-const [classnumber,setclassnumber]=useState('')
+function ManageAttendance() {
 
 
-
-
-  const getClasses=async ()=>
-{
- await  Classes().then((e) => {
-        const  data  = e.data.classdata.sort((a, b) => {
-            return a.Class - b.Class;
-        });;
-        console.log(data);
-        setclassnames(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    }
-
-
-const getstudents=(value)=>
-{
-console.log(classnumber);
- navigate('/admin/students',{state:{class:value}})
-}
-
-
-    //useeffect
-    useEffect(()=>
+    const navigate=useNavigate()
+    const[classname,setclassnames]=useState()
+    const [classnumber,setclassnumber]=useState('')
+    
+    
+    
+    
+      const getClasses=async ()=>
     {
-getClasses()
-    },[])
+     await  Classes().then((e) => {
+            const  data  = e.data.classdata.sort((a, b) => {
+                return a.Class - b.Class;
+            });;
+            console.log(data);
+            setclassnames(data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        }
+    
+    
+    const getstudents=(value)=>
+    {
+    console.log(classnumber);
+     navigate('/admin/attendance',{state:{class:value}})
+    }
+    
+    
+        //useeffect
+        useEffect(()=>
+        {
+    getClasses()
+        },[])
+
   return (
-
-
 
 
     <div> <div className='h-screen  '>
@@ -47,7 +48,7 @@ getClasses()
       <div className="rounded-xl h-auto w-96 border-4 border-violet-400">
 <div className="p-4">
 <div className="  ">
-  <label className='  font-bold text-4xl mb-5 underline flex justify-center' htmlFor="">Classes</label>
+  <label className='  font-bold text-4xl mb-5 underline flex justify-center' htmlFor="">Attendance</label>
 
  {classname?classname.map((value,key)=>
 {
@@ -82,4 +83,4 @@ getClasses()
   )
 }
 
-export default Managestudent
+export default ManageAttendance

@@ -21,3 +21,4 @@ export const editStudent =async ()=>
 {
     // return await AdminInstance.
 }
+
