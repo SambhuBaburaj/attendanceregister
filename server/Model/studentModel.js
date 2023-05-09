@@ -10,6 +10,7 @@ const Students = new mongoose.Schema({
   name: String,
   phone: Number,
   status: { type: Boolean, default: true },
+  attandance:Array
 });
 
 Students.pre("validate", async function (next) {
