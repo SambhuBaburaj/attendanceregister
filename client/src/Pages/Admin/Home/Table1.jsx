@@ -1,88 +1,49 @@
-import React from "react";
-import "../../../styles/style.css";
-import Example from "../../../components/Admin/PickElements/DatePicker";
-function Table1() {
+import React, { useState } from 'react';
 
+const DropdownMenu = () => {
+  const [selectedValue, setSelectedValue] = useState(null);
+  const [showOptions, setShowOptions] = useState(true)
+  const options = ['Option 1', 'Option 2', 'Option 3'];
 
-    const datas=[
-
-        {
-            name:'sambhu',
-            present:["July 1, 1983 01:15:00","July 2, 1983 01:15:00","July 5, 1983 01:15:00","July 8, 1983 01:15:00","July 10, 1983 01:15:00"]
-        },
-        {
-            name:'nandu',
-            present:["March 2, 1983 01:15:00","July 1, 1983 01:15:00","July 5, 1983 01:15:00","July 8, 1983 01:15:00","July 10, 1983 01:15:00"]
-        }
-    
-    ]
-
-    
-
-  function MyComponent(props) {
-    const elements = [];
-    for (let i = 0; i < props.count; i++) {
-      elements.push(<th scope="col">{i}</th>);
-    }
-    return <tr>{elements}</tr>;
-  }
-
-const Studentpresent=(element)=>
-{
-let date=1;
-let vairfy=false
-const elem = [];
-
-    for(let i=1;i<31;i++)
-    {
-
-
-
-for(let j=0;j<element.count.present.length;j++)
-{
-
-  const checkdate=new Date(element.count.present[j]).getDate()
-const checkmonth=new Date(element.count.present[j]).getMonth()
-console.log('month',checkmonth,'day',checkdate,'this is i',i);
-if(checkmonth===6&&checkdate===i)
-{
-  console.log('its in');
-  elem.push(<td>present </td>);
-  vairfy=true
-}
-
-}
-if(vairfy)
-{
-  vairfy=false
-}
-else
-{
-  elem.push(<td>absent </td>);
-
-}
-
-
-    }
-
-    return (
-      <tr>
-   
-        <th>{element.count.name}</th>
-        {elem}
-      </tr>
-    );
-
-}
-
-
-  
+  const handleOptionClick = (option) => {
+    setSelectedValue(option);
+  };
 
   return (
-<>
-<Example/>
-</>
+    <div className="relative">
+      <button
+        className="bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded-md focus:outline-none"
+        onClick={() => setShowOptions(!showOptions)}
+      >
+        {selectedValue || 'Select an option'}
+        <svg
+          className="w-4 h-4 inline-block ml-2"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+        >
+          <path
+            fillRule="evenodd"
+            d="M5.293 7.707a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 011.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+            clipRule="evenodd"
+          />
+        </svg>
+      </button>
+      <div
+        className="absolute z-10 w-full mt-2 rounded-md bg-white shadow-lg"
+        style={{ display: showOptions ? 'block' : 'none' }}
+      >
+        {options.map((option) => (
+          <button
+            key={option}
+            className="block w-full text-left px-4 py-2 hover:bg-gray-100 focus:outline-none"
+            onClick={() => handleOptionClick(option)}
+          >
+            {option}
+          </button>
+        ))}
+      </div>
+    </div>
   );
-}
+};
 
-export default Table1;
+export default DropdownMenu;

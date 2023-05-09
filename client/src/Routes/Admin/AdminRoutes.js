@@ -13,7 +13,10 @@ import Table from '../../Pages/Admin/Home/Table1';
 function AdminRoutes() {
   return (
  <Routes> 
+
     <Route element={<Login/>} path='/admin'/>
+
+    
       <Route element={<Home/>} path='/admin/home'/>
       <Route element={<ManageClass/>} path='/admin/manageclass'/>
       <Route element={<Managestudent/>} path='/admin/managestudents'/>

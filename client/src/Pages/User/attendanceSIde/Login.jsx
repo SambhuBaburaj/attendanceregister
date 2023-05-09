@@ -1,14 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 import myImage from '../../../Assets/Images/WhatsApp Image 2023-05-09 at 4.01.06 PM.jpeg';
+import { UsrLogin } from '../../../API/UserSide';
+import { useNavigate } from 'react-router-dom';
 function LoginUser() {
-
+  const navigate=useNavigate()
+const [err, seterr] = useState()
 const SubmitForm= async (e)=>
 {
   e.preventDefault()
 const form=new FormData(e.target)
 const LoginData=Object.fromEntries(form.entries())
+UsrLogin(LoginData).then(data=>
+  {
+    console.log('respose here');
+    console.log(data);
+    seterr('')
+    localStorage.setItem('accessToken',data.data.accessToken)
+    localStorage.setItem('User',JSON.stringify(data.data.User))
+    navigate('/home')
 
-console.log(LoginData);
+  }).catch(err=>
+    {
+      console.log(err);
+seterr('username/password incorrect')
+
+    })
+
 }
 
   return (
@@ -24,8 +41,9 @@ console.log(LoginData);
         <div className="my-5 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300">
           <p className="mx-4 mb-0 text-center font-semibold text-slate-500">Wisdom</p>
         </div>
-        <input name='username' className="text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded" type="text" placeholder="Email Address" />
-        <input name='password' className="text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded mt-4" type="password" placeholder="Password" />
+        <p className='text-red-500'>{err}</p>
+        <input required name='username' className="text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded" type="text" placeholder="Email Address" />
+        <input required name='password' className="text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded mt-4" type="password" placeholder="Password" />
         <div className="mt-4 flex justify-between font-semibold text-sm">
           <label className="flex text-slate-500 hover:text-slate-600 cursor-pointer">
             <input className="mr-1" type="checkbox" />
