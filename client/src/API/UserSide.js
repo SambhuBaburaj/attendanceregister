@@ -12,3 +12,10 @@ export const MarkAttendance=async (data1,data2)=>
 return await AdminInstance.post('/markattendance',{data1,data2})
 
 }
+
+
+export const TakenAttandance =async(data)=>
+{
+return await AdminInstance.get(`/attadancecheck?class=${data}`)
+
+}

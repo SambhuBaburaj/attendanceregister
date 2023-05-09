@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import TeacherDropdown from '../../../components/User/TeacherDropdown';
-import {MarkAttendance} from '../../../API/UserSide'
+import {MarkAttendance, TakenAttandance} from '../../../API/UserSide'
 import { useLocation, useNavigate } from "react-router-dom";
 import { getStudents } from '../../../API/adminStudentInstance';
+import Confirmation from '../../../components/Admin/Pop-up/Confirmation';
 
 const initialSeatState = [];
 
@@ -28,7 +29,9 @@ const classnumber = location.state;
 const [selectedSeats, setSelectedSeats] = useState(initialSeatState);
   const [teacherName, setteacherName] = useState('select teacher ')
   const [Students, setStudents] = useState()
-
+  const [checkAttandance, setCheckAttandance] = useState(true)
+  const [ModalIsOpen, setModalIsOpen] = useState(false)
+const [msg, setMsg] = useState()
   const isSelected = (seat) => {
 
     return selectedSeats.some((s) => s.name === seat.name && s.serialNumber === seat.serialNumber);
@@ -41,7 +44,7 @@ const markattandance=()=>
 
   MarkAttendance(selectedSeats,teacherName).then(data=>
     {
-  
+      Taken()
     })
 }
 function SelectTeacher(data)
@@ -59,16 +62,39 @@ const getallStudents=()=>
     setStudents(data.data);
   });
 }
+
+const Taken=()=>
+{
+  console.log('im running');
+  TakenAttandance(classnumber.class).then(data=>
+    {
+console.log(data);
+      setCheckAttandance(false)
+    }).catch(data=>
+      {
+        setCheckAttandance(true)
+    setMsg('Attendance taken')
+    setModalIsOpen(true)
+      })
+}
+
+
+
 useEffect(()=>
 {
+  Taken()
 getallStudents()
 
 },[])
+
+
 
   return (
 
 <div>
 <p className='font-bold text-4xl flex justify-center mt-2 mb-3'>class {classnumber.class}</p>
+
+{checkAttandance? <div className='font-bold text-3xl mt-6 flex justify-center'>{msg}</div>: <div>
 <div className="mb-4">
 <TeacherDropdown SelectTeacher={SelectTeacher}  />
   </div>
@@ -107,6 +133,9 @@ getallStudents()
   Submit</button>
 
 </div>
+</div>  }
+
+{ModalIsOpen && <Confirmation data='your attandance has successfully submitted' setModalIsOpen={setModalIsOpen}/>}
 </div>
 
     

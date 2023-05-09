@@ -46,6 +46,7 @@ const newstudent = async (req, res) => {
       name: req.body.Student,
       phone: req.body.Phone,
       class: req.body.class,
+      attandance:[]
     }).save();
 
     res.json({ res: 1 });
