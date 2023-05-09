@@ -7,7 +7,7 @@ const {
   DeleteClass,
 } = require("../Controller/ClassControl");
 const { newstudent, studentdetail, deleteStudent, pouseSudent } = require("../Controller/StudentControl");
-const { AddTeahcer, GetTeahcer } = require("../Controller/Admin/TeacherControl");
+const { AddTeahcer, GetTeahcer, RemoveTeahcer } = require("../Controller/Admin/TeacherControl");
 
 /* GET home page. */
 router.post("/loginadmin", function (req, res, next) {
@@ -26,4 +26,6 @@ router.get("/getstudents", studentdetail);
 router.get("/deletestudent", deleteStudent);
 router.post("/addteachers",AddTeahcer)
 router.get('/getteahcers',GetTeahcer)
+router.get('/removeteachers',RemoveTeahcer)
+
 module.exports = router;

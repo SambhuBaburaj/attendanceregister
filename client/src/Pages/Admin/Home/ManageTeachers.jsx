@@ -3,7 +3,8 @@ import React, { useEffect, useState } from "react";
 import { Classes, addClass } from "../../../API/AdminInstance";
 import Confirmation from "../../../components/Admin/Pop-up/Confirmation";
 import RemoveClass from "../../../components/Admin/Pop-up/RemoveClass";
-import { AddTeachers, GetTeachers } from "../../../API/AdminTeacher";
+import { AddTeachers, GetTeachers, RemoveTeachers } from "../../../API/AdminTeacher";
+import ItemsDelete from "../../../components/Admin/Pop-up/FordelteItems";
 
 
 
@@ -45,7 +46,7 @@ function ManageTeachers() {
   };
   useEffect(() => {
     getdata();
-  }, [removeClass]);
+  }, []);
 
   const addclass = (e) => {
 
@@ -68,6 +69,21 @@ function ManageTeachers() {
       seterr(true);
     }
   };
+
+const ConfirmDelete=(data)=>
+{
+console.log('here',data);
+console.log(classnumber);
+RemoveTeachers(classnumber).then(data=>
+  {
+    setRemoveclass(false);
+getdata()
+
+  })
+}
+
+
+
   return (
     <div className="bg-gray-500">
     <div className="h-screen ">
@@ -126,14 +142,14 @@ function ManageTeachers() {
                 })
               ) : (
                 <p className="text-end fontbold text-xl text to-blue-400">
-                  add a class to begin
+                  add a teacher to begin
                 </p>
               )}
             </tbody>
           </table>
           <form>
             <div className="relative mt-5">
-              {err && <p>insert a class</p>}
+              {err && <p className="text-red-300">insert a Teachers name</p>}
               <input
                 onChange={(e) => {
                   setclassname(e.target.value);
@@ -145,14 +161,14 @@ function ManageTeachers() {
                 type="text"
                 id="class"
                 className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="Class"
+                placeholder="name"
                 required
               />
               <button
                 onClick={addclass}
                 className="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               >
-                Add Class
+               confirm
               </button>
             </div>
           </form>
@@ -161,15 +177,14 @@ function ManageTeachers() {
     </div>
     {modalIsOpen && (
       <Confirmation
-        data="this class is already added"
+        data="This teacher is already added"
         model={modalIsOpen}
         setModalIsOpen={setModalIsOpen}
       />
     )}
     {removeClass && (
-      <RemoveClass
-        setRemoveclass={setRemoveclass}
-        classnumber={classnumber}
+      <ItemsDelete
+      setRemoveclass={setRemoveclass} callback={ConfirmDelete}
       />
     )}
   </div>

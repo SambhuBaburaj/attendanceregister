@@ -22,4 +22,12 @@ const GetTeahcer=async (req,res)=>
 const teachers=await teachermodel.find().select({ name: 1, _id: 0 });
 res.json(teachers)
 }
-module.exports={AddTeahcer,GetTeahcer}
+const RemoveTeahcer=(req,res)=>
+{
+    console.log(req.query);
+    teachermodel.findOneAndDelete({name:req.query.data}).then(data=>
+        {
+            res.json(true)
+        })
+}
+module.exports={AddTeahcer,GetTeahcer,RemoveTeahcer}

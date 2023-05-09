@@ -92,6 +92,16 @@ function ManageClass() {
                         </td>
 
                         <td className="px-6 py-4">
+                          {/* <a
+                            onClick={() => {
+                              setRemoveclass(true);
+                              setclassnumber(value.Class);
+                            }}
+                       
+                            className="font-medium text-red-600 dark:text-red-500 hover:underline"
+                          >
+                            Remove
+                          </a> */}
                           <a
                             onClick={() => {
                               setRemoveclass(true);
