@@ -1,34 +1,85 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../../../styles/style.css";
 import DatePicker from "react-datepicker";
 // import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import Example from "../../../components/Admin/PickElements/DatePicker";
+import { useLocation } from "react-router-dom";
+import { getStudents } from "../../../API/adminStudentInstance";
+import AdminInstance from "../../../API/Axios";
 
 function Attendence() {
-  const datas = [
-    {
-      name: "sambhu",
-      present: [
-        "July 1, 1983 01:15:00",
-        "July 2, 1983 01:15:00",
-        "July 5, 1983 01:15:00",
-        "July 8, 1983 01:15:00",
-        "July 10, 1983 01:15:00",
-      ],
-    },
-    {
-      name: "nandu",
-      present: [
-        "March 2, 1983 01:15:00",
-        "July 1, 1983 01:15:00",
-        "July 5, 1983 01:15:00",
-        "July 8, 1983 01:15:00",
-        "July 10, 1983 01:15:00",
-      ],
-    },
-  ];
+  const [datas, setStudents] = useState();
 
+  const location = useLocation();
+  const classnumber = location.state;
+
+console.log(location.state);
+  // const datas = [
+  //   {
+  //     name: "sambhu",
+  //     present: [
+  //       "July 1, 1983 01:15:00",
+  //       "July 2, 1983 01:15:00",
+  //       "July 5, 1983 01:15:00",
+  //       "July 8, 1983 01:15:00",
+  //       "July 10, 1983 01:15:00",
+  //     ],
+  //   },
+  //   {
+  //     name: "nandu",
+  //     present: [
+  //       "March 2, 1983 01:15:00",
+  //       "July 1, 1983 01:15:00",
+  //       "July 5, 1983 01:15:00",
+  //       "July 8, 1983 01:15:00",
+  //       "July 10, 1983 01:15:00",
+  //     ],
+  //   },
+  // ];
+
+  const studentdata = () => {
+
+console.log(classnumber);
+    getStudents(classnumber.class).then((data) => {
+     console.log(data);
+      setStudents(data.data);
+    });
+  };
+
+
+
+  const [years, setYears] = useState('select years')
+  const [datayear, setdatayear] = useState()
+    const GetData=()=>
+    {
+      
+      AdminInstance.get(`/admin/getyear?data=${classnumber.class}`).then(data=>
+        {
+          console.log(data);
+          setdatayear (data.data.data)
+  
+  
+        })
+  
+        AdminInstance.get('admin/getmonths').then(data=>
+          {
+            const months=data.data
+          })
+
+        }
+
+
+
+  
+
+useEffect(()=>
+{
+  studentdata()
+  GetData()
+},[])
+
+  
   function MyComponent(props) {
     const elements = [];
     for (let i = 0; i < props.count; i++) {
@@ -40,14 +91,16 @@ function Attendence() {
   const Studentpresent = (element) => {
     let vairfy = false;
     const elem = [];
-
+console.log(element);
     for (let i = 1; i < 31; i++) {
-      for (let j = 0; j < element.count.present.length; j++) {
-        const checkdate = new Date(element.count.present[j]).getDate();
-        const checkmonth = new Date(element.count.present[j]).getMonth();
-        console.log("month", checkmonth, "day", checkdate, "this is i", i);
+      for (let j = 0; j < element.count.attandance.length; j++) {
+        const checkdate = new Date(element.count.attandance[j]).getDate();
+        const checkmonth = new Date(element.count.attandance[j]).getMonth();
+        // console.log(checkmonth);
+        // console.log(new Date().getMonth());
+        // console.log("month", checkmonth, "day", checkdate, "this is i", i);
         if (checkmonth === 6 && checkdate === i) {
-          console.log("its in");
+          // console.log("its in");
           elem.push(<td>present </td>);
           vairfy = true;
         }
@@ -84,8 +137,8 @@ console.log(props);
         Attendance for Class 4
       </h1>
       <div className="flex justify-center mb-4">
-        <Example callback={getyearSelection} />
-        <Example callback= {getMonthSelection} />
+        <Example  Callback={getyearSelection} datayear={datayear}/>
+        {/* <Example Callback= {getMonthSelection} Class={classnumber} /> */}
       </div>
 
       <div id="table-scroll" class="table-scroll">
@@ -94,7 +147,7 @@ console.log(props);
             <MyComponent count={31} />
           </thead>
           <tbody>
-            {datas.map((element) => {
+            {datas && datas.map((element) => {
               return <Studentpresent count={element} />;
             })}
 

@@ -14,8 +14,13 @@ const StudentSubmit=(e)=>
   const form=new FormData(e.target)
 
   const formdata= Object.fromEntries(form.entries())
+
+
   formdata.class=location.state.class
-  console.log(formdata);
+  console.log();
+  
+if((formdata.Phone).toString().length===10)
+{
   Addstudent(formdata).then(d=>
     {
       const {data}=d
@@ -33,6 +38,13 @@ const StudentSubmit=(e)=>
 
     })
     document.getElementById("myForm").reset();
+}
+else
+{
+  setmsg(['Add a valid 10 digit number','text-red-400'])
+  
+}
+ 
 }
 
 
