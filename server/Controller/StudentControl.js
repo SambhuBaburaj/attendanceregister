@@ -1,5 +1,7 @@
 const { default: mongoose } = require("mongoose");
 const { StudentModel } = require("../Model/studentModel");
+const { teachermodel } = require("../Model/TeacherModel");
+const { recordModel } = require("../Model/AttandanceRecord");
 
 const AddNewStudent = (req, res) => {
   const abcd = new StudentModel({ name: "samb", phone: 1234 });
@@ -71,5 +73,16 @@ const pouseSudent = async (req, res) => {
     res.status(200).json(true);
   });
 };
+const GetYear=(req,res)=>
+{
+console.log(req.query);
+  recordModel.distinct( "year" ).then(data=>
+    {
+      res.json({data})
+      // console.log(data);
+    })
 
-module.exports = { deleteStudent, newstudent, studentdetail, pouseSudent };
+
+
+}
+module.exports = { deleteStudent, newstudent, studentdetail, pouseSudent ,GetYear};
